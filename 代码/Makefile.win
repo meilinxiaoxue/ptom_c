@@ -1,0 +1,31 @@
+# Project: ptom
+# Makefile created by Dev-C++ 5.10
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = main.o ptom.o
+LINKOBJ  = main.o ptom.o
+LIBS     = -L"E:/software/Dev-Cpp/MinGW64/lib" -L"E:/software/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
+INCS     = -I"E:/software/Dev-Cpp/MinGW64/include" -I"E:/software/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"E:/software/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"
+CXXINCS  = -I"E:/software/Dev-Cpp/MinGW64/include" -I"E:/software/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"E:/software/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include" -I"E:/software/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"
+BIN      = ptom.exe
+CXXFLAGS = $(CXXINCS) -march=native -mtune=native -std=c99 -Wall -Wextra -pedantic
+CFLAGS   = $(INCS) -march=native -mtune=native -std=c99 -Wall -Wextra -pedantic
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.c
+	$(CC) -c main.c -o main.o $(CFLAGS)
+
+ptom.o: ptom.c
+	$(CC) -c ptom.c -o ptom.o $(CFLAGS)

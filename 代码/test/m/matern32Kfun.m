@@ -1,0 +1,27 @@
+function KNM = matern32Kfun(usepdist,theta,XN,XM,calcDiag) %#codegen
+% Matern32Kfun - calculate distance for Matern32 Kernel
+
+%   Copyright 2017 The MathWorks, Inc.
+
+coder.inline('always');
+
+% Get sigmaL and sigmaF from theta.
+sigmaL   = exp(theta(1));
+sigmaF   = exp(theta(2));
+tiny     = 1e-6;
+sigmaL   = max(sigmaL,tiny);
+sigmaF   = max(sigmaF,tiny);
+
+if calcDiag
+    N       = size(XN,1);
+    KNM     = (sigmaF^2)*ones(N,1);
+else
+    % Compute sqrt(3)*D/sigmaL where D is the Euclidean distance matrix.
+    KNM = classreg.learning.coder.gputils.calcDistance(XN/sigmaL,XM/sigmaL,usepdist);
+    KNM = sqrt(3)*sqrt(KNM);
+    
+    % Apply exp.
+    KNM = (sigmaF^2)*((1 + KNM).*exp(-KNM));
+end
+
+end
